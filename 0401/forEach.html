@@ -1,8 +1,26 @@
 <script>
-const foo = (element, index, array) => {
-    console.log(`${index} 번째 인덱스의 값은 ${element}`)
+
+const range = l => {
+    let res =[]
+    let i = -1
+    while(++i<l) {
+        res.push(i)
+    }
+    return res
 }
 
-['a', 'b', 'c', 'd'].forEach(foo)
+let arr = range(1000)
+let for_arr = []
+let foreach_arr = []
+console.time("for 문")
+for(let i = 0; i < arr.length; i++) {
+    for_arr.push(arr[i])
+}
+console.timeEnd("for 문")
 
+console.time("forEach 문")
+arr.forEach((val) => {
+    foreach_arr.push(val)
+})
+console.timeEnd("forEach 문")
 </script>
