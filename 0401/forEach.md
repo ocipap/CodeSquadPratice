@@ -104,7 +104,7 @@ arr.forEach(callback[, thisArg]);
     console.timeEnd("forEach 문")
     ```
 
-    <img src="./time.png">
+    <img src="./time.png" width="400">
 
 
 
