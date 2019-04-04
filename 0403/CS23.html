@@ -1,0 +1,85 @@
+<script>
+
+const boolToInt = (b) => b ? 1 : 0
+
+function and (a, b) {
+    return boolToInt(a && b)
+}
+
+function or (a, b) {
+    return boolToInt(a || b)
+}
+
+function nand (a, b) {
+    return boolToInt(!and(a, b))
+}
+
+function nor(a, b) {
+    return boolToInt(!or(a, b))
+}
+
+function xor(a, b) {
+    return or(and(!a, b),and(a,!b))
+}
+
+function xnor(a, b) {
+    return boolToInt(!xor(a,b))
+}
+
+function halfAdder(a, b) {
+    return [and(a, b), xor(a, b)]
+}
+
+function fullAdder(a, b, carry) {
+    let s = xor(a, xor(b, carry))
+    let c = or(
+            and(a, carry), 
+            or(
+                and(b, carry),
+                and(a, b)
+            )
+        )
+    return [c, s]
+}
+
+function *twoEach(iterA, iterB) {
+    let leng = iterA.length
+    for(let i = 0; i < leng; i++) {
+        yield [iterA[i], iterB[i]]
+    }
+}
+
+function byteadder(byteA, byteB) {
+    let answer = [],
+        leng = byteA.leng,
+        carry = 0
+    for(const val of twoEach(byteA, byteB)) {
+        let [a, b] = val
+        let [c, s] = fullAdder(a, b, carry)
+        answer.push(s)
+        carry = c
+    }
+    answer.push(carry)
+    return answer;
+}
+
+function dec2bin(decimal) {
+    let answer = [],
+        q = decimal
+    while (q > 0) {
+        answer.push(q % 2)
+        q = Math.floor(q / 2)
+    }
+    return answer;
+}
+
+function bin2dec(bin) {
+    var answer = 0;
+    bin.forEach((el, i) => {
+        if(el) answer += Math.pow(2, i)
+    })
+    return answer;
+}
+
+console.log(halfAdder(1, 0))
+</script>
