@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .form-family {
+            margin: 1rem 0;
+        }
+
+        .form-family label {
+            display: block;
+            font-size: 14px;
+            margin: 5px;
+        }
+
+        .form-family .form-input {
+            border-radius: 3px;
+            border: 1px solid #a0a0a0;
+            padding: 0.5rem;
+            resize: none;
+        }
+
+        .form-family .submit {
+            background: green;
+            color: #fff;
+            font-size: 1rem;
+            padding: 7px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .result-el {
+            margin: 0.5rem;
+            padding: 5px;
+        }
+
+        .result-el .result-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .result-el .result-content {
+            font-size: 18px;
+            margin: 5px;
+            font-weight: 100;
+            padding: 10px 0;
+
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>GUEST BOOK</h1>
+    <form id="guestbook-form">
+        <div class="form-family">
+            <label for="">Name</label>
+            <input type="text" class="form-input" id="name">
+        </div>
+        <div class="form-family">
+            <label for="">Content</label>
+            <textarea id="content" cols="30" rows="10" class="form-input"></textarea>
+        </div>
+        <div class="form-family">
+            <input type="submit" value="Submit" id="submit" class="submit">
+        </div>
+    </form>
+    <div id="result">
+        <h2>result</h2>
+        <div class="result-el">
+            <div class="result-name">papico</div>
+            <div class="result-content">hello bro</div>
+        </div>
+    </div>
+    <script src="./vanila.js"></script>
+</body>
+
+</html>
