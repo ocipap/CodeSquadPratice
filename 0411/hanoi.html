@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .field {
+            height: 400px;
+            width: 700px;
+            border-bottom: 30px solid #551b1b;
+            display: flex;
+            box-sizing: border-box;
+            margin: 10px;
+        }
+
+        .field .top {
+            position: relative;
+            flex: 1 1 auto;
+        }
+
+        .field .top .stick {
+            background: #551b1b;
+            width: 20px;
+            height: 89%;
+            left: calc(100% / 2 - 10px);
+            bottom: 0;
+            position: absolute;
+            z-index: -10;
+        }
+
+        .field .plate_field {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+        }
+
+        .plate {
+            height: 30px;
+            margin: 5px 0px;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 30px;
+            color: #000;
+        }
+
+        #plate1 {
+            background: red;
+            width: 40%;
+        }
+
+        #plate2 {
+            background: yellow;
+            width: 50%;
+        }
+
+        #plate3 {
+            background: greenyellow;
+            width: 60%;
+        }
+
+        #plate4 {
+            background: blue;
+            width: 70%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="field">
+        <div class="top">
+            <div class="plate_field" id="plate_field1">
+            </div>
+            <div class="stick"></div>
+        </div>
+        <div class="top">
+            <div class="plate_field" id="plate_field2">
+
+            </div>
+            <div class="stick"></div>
+        </div>
+        <div class="top">
+            <div class="plate_field" id="plate_field3">
+
+            </div>
+            <div class="stick"></div>
+        </div>
+    </div>
+    <script src="./hanoi.js"></script>
+</body>
+
+</html>
