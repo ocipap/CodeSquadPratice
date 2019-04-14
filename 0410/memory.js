@@ -3,7 +3,6 @@ const underAddress = (address, l) => (address < l) ? true : false
 class Memory {
     constructor() {
         this.memory =  new Uint16Array(131072)
-        this.programCounter = 0
     }
 
     peek(address) {
@@ -13,10 +12,8 @@ class Memory {
 
     locate(program) {
         let programLength = program.length
-        if(this.programCounter + programLength > 65535) throw Error("Exceeded memory!")
         for(let i = 0; i < programLength; i++) {
-            this.memory[this.programCounter] = program[i]
-            this.programCounter++
+            this.memory[i] = program[i]
         }
     }
 
