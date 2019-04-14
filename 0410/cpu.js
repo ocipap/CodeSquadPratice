@@ -1,28 +1,45 @@
 const Memory = require("./memory").memory
 
-const INSTRUCTION = {
-    '0001' : 'LOAD',
-    '0010' : 'LOAD',
-    '0011' : 'STORE',
-    '0100' : 'STORE',
-    '0101' : 'AND',
-    '0110' : 'OR',
-    '0111' : 'ADD',
-    '1000' : 'ADD',
-    '1001' : 'SUB',
-    '1010' : 'SUB',
-    '1011' : 'MOV'
+const option1 = code => {
+    return [
+        code.slice(0, 4),
+        code.slice(4, 7),
+        code.slice(7, 10),
+        code.slice(11, 16)
+    ]
 }
 
-const irDecode = (code) => {
+const option2 = code => {
+    return [
+        code.slice(0, 4),
+        code.slice(4, 7),
+        code.slice(7, 10),
+        code.slice(13, 16)
+    ]
+}
+
+const option3 = code => {
+    return [
+        code.slice(0, 4),
+        code.slice(4, 7),
+        code.slice(7)
+    ]
+}
+
+const decode = (code) => {
     code = code.toString(2).padStart(16, '0')
-    let instruction = INSTRUCTION[code.slice(0, 4)]
     
-    console.log(instruction)
+    if(code.slice(0, 4) === "1011") {
+        return option3(code)
+    } else if (code.slice(0, 4) === "0010" || code.slice(0, 4) === "0100" || code.slice(0, 4) === "1000" || code.slice(0, 4) === "1010"){
+        return option1(code)
+    } else {
+        return option2(code)
+    }
 }
 
 class Cpu {
-    constructor(){
+    constructor() {
         this.memory = new Memory();
         this.register = {
             R1: 0,
@@ -37,19 +54,18 @@ class Cpu {
     }
 
     reset() {
-        for(const key in this.register) {
+        for (const key in this.register) {
             this.register[key] = 0
         }
     }
 
-    fetch() {
+    fetch(pc) {
         let command = this.memory.fetch(this.register.PC)
         this.register.PC++
-        this.execute(command)
     }
 
-    execute(command) {
-        
+    execute() {
+
     }
 
     dump() {
@@ -57,4 +73,18 @@ class Cpu {
     }
 }
 
-irDecode(4739)
+const test = () => {
+    console.log(decode(4778)) // load
+    console.log(decode(12287)) // load
+    console.log(decode(16383)) // store
+    console.log(decode(20479)) // store
+    console.log(decode(24575)) // and
+    console.log(decode(28671)) // or
+    console.log(decode(32767)) // add
+    console.log(decode(40959)) // add
+    console.log(decode(40959)) // sub
+    console.log(decode(45055)) // sub
+    console.log(decode(49151)) // mov
+}
+
+test()
