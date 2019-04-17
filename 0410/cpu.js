@@ -1,5 +1,15 @@
 const Memory = require("./memory").memory
 
+const REGISTER = {
+    "001": "R1",
+    "010": "R2",
+    "011": "R3",
+    "100": "R4",
+    "101": "R5",
+    "110": "R6",
+    "111": "R7",
+}
+
 const option1 = code => {
     return [
         code.slice(0, 4),
@@ -28,10 +38,10 @@ const option3 = code => {
 
 const decode = (code) => {
     code = code.toString(2).padStart(16, '0')
-    
-    if(code.slice(0, 4) === "1011") {
+
+    if (code.slice(0, 4) === "1011") {
         return option3(code)
-    } else if (code.slice(0, 4) === "0010" || code.slice(0, 4) === "0100" || code.slice(0, 4) === "1000" || code.slice(0, 4) === "1010"){
+    } else if (code.slice(0, 4) === "0010" || code.slice(0, 4) === "0100" || code.slice(0, 4) === "1000" || code.slice(0, 4) === "1010") {
         return option1(code)
     } else {
         return option2(code)
@@ -62,29 +72,73 @@ class Cpu {
     fetch(pc) {
         let command = this.memory.fetch(this.register.PC)
         this.register.PC++
+        return command
     }
 
-    execute() {
-
+    execute(instruction) {
+        let inst = decode(instruction)
+        let address = 0
+        let value = 0
+        switch (inst[0]) {
+            case "0001":
+                address = this.register[REGISTER[inst[2]]] + this.register[REGISTER[inst[3]]]
+                this.register[REGISTER[inst[1]]] = this.memory.load(address)
+                break
+            case "0010":
+                address = this.register[REGISTER[inst[2]]] + parseInt(inst[3], 2)
+                this.register[REGISTER[inst[1]]] = this.memory.load(address)
+                break
+            case "0011":
+                value = this.register[REGISTER[inst[1]]]
+                address = this.register[REGISTER[inst[2]]] + this.register[REGISTER[inst[3]]]
+                this.memory.store(address, value)
+                break
+            case "0100":
+                value = this.register[REGISTER[inst[1]]]
+                address = this.register[REGISTER[inst[2]]] + parseInt(inst[3], 2)
+                this.memory.store(address, value)
+                break
+            case "0101":
+                value = this.register[REGISTER[inst[2]]] && this.register[REGISTER[inst[3]]]
+                this.register[REGISTER[inst[1]]] = value
+                break
+            case "0110":
+                value = this.register[REGISTER[inst[2]]] || this.register[REGISTER[inst[3]]]
+                this.register[REGISTER[inst[1]]] = value
+                break
+            case "0111":
+                value = this.register[REGISTER[inst[2]]] + this.register[REGISTER[inst[3]]]
+                this.register[REGISTER[inst[1]]] = value
+                break
+            case "1000":
+                value = this.register[REGISTER[inst[2]]] + parseInt(inst[3], 2)
+                this.register[REGISTER[inst[1]]]= value
+                break
+            case "1001":
+                value = this.register[REGISTER[inst[2]]] - this.register[REGISTER[inst[3]]]
+                this.register[REGISTER[inst[1]]]= value
+                break
+            case "1010":
+                value = this.register[REGISTER[inst[2]]] - parseInt(inst[3], 2)
+                this.register[REGISTER[inst[1]]]= value
+                break
+            case "1011":
+                this.register[REGISTER[inst[1]]] = parseInt(inst[2], 2)
+                break
+            default:
+                break
+        }
     }
 
     dump() {
-
+        let new_arr = []
+        for (const a in this.register) {
+            new_arr.push(this.register[a])
+        }
+        return new_arr
     }
 }
 
-const test = () => {
-    console.log(decode(4778)) // load
-    console.log(decode(12287)) // load
-    console.log(decode(16383)) // store
-    console.log(decode(20479)) // store
-    console.log(decode(24575)) // and
-    console.log(decode(28671)) // or
-    console.log(decode(32767)) // add
-    console.log(decode(40959)) // add
-    console.log(decode(40959)) // sub
-    console.log(decode(45055)) // sub
-    console.log(decode(49151)) // mov
+module.exports = {
+    cpu : Cpu
 }
-
-test()
